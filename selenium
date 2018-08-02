@@ -1,0 +1,39 @@
+#accion = numero de la accion que quiere hacer.
+#driver = selenium driver
+#row5 = bd resultado
+#conn = conexion BD
+
+def contar(accion,driver,row5,conn):
+	for i in inner_longitud(conn,accion): # inner join for each
+		row4 = inner(conn,accion,i[1]) # inner join explicit 
+		if ((row4[0][2] != "") & (row4[0][3] != "") & (row4[0][4] != "")):
+			if (i[1] != "4"):
+				driver.find_element_by_xpath(row4[0][2]).find_element_by_xpath(row4[0][3]).find_element_by_xpath(row4[0][4]).click()
+				driver.implicitly_wait(4)
+			else:
+				driver.find_element_by_xpath(row4[0][2]).find_element_by_xpath(row4[0][3]).find_element_by_xpath("//option[@value="+row5[0][1]+"]").click()
+				driver.implicitly_wait(4)
+			try:
+				if (i[1] == i[1]):
+					if (driver.find_element_by_xpath(row4[0][2]).find_element_by_xpath(row4[0][3]).find_element_by_xpath(row4[0][4]).get_attribute('type') == 'text'):
+						driver.find_element_by_xpath(row4[0][2]).find_element_by_xpath(row4[0][3]).find_element_by_xpath(row4[0][4]).send_keys("tienda")
+						driver.implicitly_wait(4)
+					else:
+						continue
+						driver.implicitly_wait(4)
+			except NoSuchElementException as exception:
+				driver.implicitly_wait(4)
+
+		elif ((row4[0][2] != "") & (row4[0][3] != "")):
+			driver.find_element_by_xpath(row4[0][2]).find_element_by_xpath(row4[0][3]).click()
+			driver.implicitly_wait(2)
+		elif ((row4[0][2] != "")):
+			driver.find_element_by_xpath(row4[0][2]).click()
+			driver.implicitly_wait(4)
+
+def ejecucion():
+	for i in select_longitud("tbl_acc_x_comp"):
+		if i[3] == 1:
+			threading.Thread(target=main_, args=(i[1],i[2],)).start()
+
+ejecucion()
